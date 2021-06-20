@@ -25,12 +25,96 @@ namespace CrudEntityFramework.Controllers
         {
             return View(await _context.Usuario.ToListAsync());
         }
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Usuario.Add(usuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null) return NotFound();
+            else 
+            {
+                var usuario = _context.Usuario.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return View(usuario);
+            }
+            
+            
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Usuario.Update(usuario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(usuario);
+        }
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (id == null) return NotFound();
+            else
+            {
+                var usuario = _context.Usuario.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return View(usuario);
+            }
 
+
+        }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            else
+            {
+                var usuario = _context.Usuario.Find(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+                return View(usuario);
+            }
+
+
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUsr(int? id)
+        {
+            var usr = await _context.Usuario.FindAsync(id);
+            if (usr == null)
+            {
+                return View();
+            }
+            _context.Usuario.Remove(usr);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -4,36 +4,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="text-center"> Crud Usuarios</h1>
+<h1 class="text-center">CRUD Usuarios</h1>
 <div class="row">
     <div class="col-12">
         <div class="float-right">
-            <a asp-action="Create" aspt-controller="Home" class="btn btn-success"><i class="fas fa-plus"> </i>Nuevo Usuario</a>
+            <a asp-action="Create" asp-controller="Home" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo Usuario</a>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card border">
-                <div class="card-header">
-                    <h3><strong>Lista de usuarios</strong></h3>
-                </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border">
+            <div class="card-header">
+                <h3><strong>Lista de usuarios</strong></h3>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    @if (Model.Count() > 0)
-                    {
-                        <table class="table table-bordered id="tablaUsuarios" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>@Html.DisplayNameFor(m => m.Nombre)</th>
-                                    <th>@Html.DisplayNameFor(m => m.Telefono)</th>
-                                    <th>@Html.DisplayNameFor(m => m.celular)</th>
-                                    <th>@Html.DisplayNameFor(m => m.Email)</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model) { 
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-bordered" id="tablaUsuarios" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(m => m.Nombre)</th>
+                                <th>@Html.DisplayNameFor(m => m.Telefono)</th>
+                                <th>@Html.DisplayNameFor(m => m.celular)</th>
+                                <th>@Html.DisplayNameFor(m => m.Email)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
                                     <td>@Html.DisplayFor(m => item.Nombre)</td>
                                     <td>@Html.DisplayFor(m => item.Telefono)</td>
@@ -41,19 +44,50 @@
                                     <td>@Html.DisplayFor(m => item.Email)</td>
                                     <td>
                                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalle</a>
                                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
                                     </td>
                                 </tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else { 
-                        <p>No hay registros</p>
-                    }
-                </div>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No hay registros</p>
+                }
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //Llamar a datatable
+            $('#tablaUsuarios').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
+}
+
